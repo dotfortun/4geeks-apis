@@ -16,6 +16,7 @@ class TodoItemSerializer(serializers.ModelSerializer):
 
 
 class TodoUserSerializer(serializers.ModelSerializer):
+    # Needs additional context.
     todos = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
