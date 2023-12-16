@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+drf-yasg = "*"
+drf-spectacular = "*"
+
+[dev-packages]
+autopep8 = "*"
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.6"
+
+[scripts]
+dev = "python manage.py runserver"
+make = "python manage.py makemigrations"
+migrate = "python manage.py migrate"
+createsu = "python manage.py createsuperuser --username admin --email admin@example.com"
