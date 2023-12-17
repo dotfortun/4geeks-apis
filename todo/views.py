@@ -24,14 +24,20 @@ def index(request):
     )
 
 
+@extend_schema(
+    tags=["User Operations"]
+)
 class TodoUsersViewSet(viewsets.ReadOnlyModelViewSet):
     __doc__ = _gtl("""
-    GTL test
+    Returns a list of all users.
     """)
     queryset = TodoUser.objects.all()
     serializer_class = TodoUserSerializer
 
 
+@extend_schema(
+    tags=["User Operations"]
+)
 class TodoUserDetailViewSet(viewsets.ModelViewSet):
     serializer_class = TodoUserDetailSerializer
 
@@ -72,6 +78,9 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@extend_schema(
+    tags=["Todo Item Operations"]
+)
 class TodoItemDetailViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
@@ -85,6 +94,9 @@ class TodoItemDetailViewSet(
         return TodoItem.objects.filter(pk=pk)
 
 
+@extend_schema(
+    tags=["Todo Item Operations"]
+)
 class TodoItemView(APIView):
     def post(self, request, format=None):
         """
@@ -102,6 +114,9 @@ class TodoItemView(APIView):
         )
 
 
+@extend_schema(
+    tags=["User Operations"]
+)
 class UserTodoView(APIView):
     def get_object(self, name):
         try:

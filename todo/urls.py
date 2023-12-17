@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework import permissions
+from rest_framework.routers import DefaultRouter
+
 from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView,
     SpectacularSwaggerView
@@ -27,7 +29,7 @@ from todo import views
 urlpatterns = [
     path("", views.index, name="index"),
     path(
-        'api/schema/',
+        'schema/',
         SpectacularAPIView.as_view(),
         name='schema'
     ),
@@ -39,13 +41,13 @@ urlpatterns = [
         name='redoc'
     ),
     path(
-        'api/users/',
+        'users/',
         views.TodoUsersViewSet.as_view({
             'get': 'list'
         }),
     ),
     path(
-        'api/user/<str:name>/',
+        'user/<str:name>/',
         views.TodoUserDetailViewSet.as_view({
             'get': 'retrieve',
             'delete': 'destroy'
@@ -53,7 +55,7 @@ urlpatterns = [
         name="user-details",
     ),
     path(
-        'api/user/<str:name>/todos/',
+        'user/<str:name>/todos/',
         views.UserTodoView.as_view(),
         name="user-todos",
     ),
@@ -62,7 +64,7 @@ urlpatterns = [
         views.TodoItemView.as_view()
     ),
     path(
-        'api/todo/<int:pk>/',
+        'todo/<int:pk>/',
         views.TodoItemDetailViewSet.as_view({
             'get': 'retrieve',
             'put': 'update',

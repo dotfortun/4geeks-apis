@@ -39,5 +39,5 @@ urlpatterns = [
         ),
         name='redoc'
     ),
-    path('todo/', include("todo.urls")),
+    path('todoapi/', include("todo.urls")),
 ]
