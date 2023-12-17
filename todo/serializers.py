@@ -4,15 +4,21 @@ from todo.models import TodoUser, TodoItem
 
 
 class TodoItemSerializer(serializers.ModelSerializer):
+    label = serializers.CharField(
+        max_length=256,
+        required=False
+    )
+    is_done = serializers.BooleanField(
+        required=False
+    )
+
     class Meta:
         model = TodoItem
         fields = [
-            'id',
-            'label',
-            'is_done',
-            'created',
-            'updated',
+            'id', 'label', 'is_done',
+            'created', 'updated',
         ]
+        read_only_fields = ['id', 'created', 'updated']
 
 
 class TodoUserSerializer(serializers.ModelSerializer):

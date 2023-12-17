@@ -3,9 +3,9 @@ from django.http import Http404
 from django.utils.translation import gettext_lazy as _gtl
 
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, mixins, generics
 
 from drf_spectacular.utils import (
     extend_schema, OpenApiParameter,
@@ -24,7 +24,7 @@ def index(request):
     )
 
 
-class TodoUsersViewSet(ReadOnlyModelViewSet):
+class TodoUsersViewSet(viewsets.ReadOnlyModelViewSet):
     __doc__ = _gtl("""
     GTL test
     """)
@@ -32,7 +32,7 @@ class TodoUsersViewSet(ReadOnlyModelViewSet):
     serializer_class = TodoUserSerializer
 
 
-class TodoUserDetailViewSet(ModelViewSet):
+class TodoUserDetailViewSet(viewsets.ModelViewSet):
     serializer_class = TodoUserDetailSerializer
 
     def get_queryset(self, name):
@@ -43,7 +43,7 @@ class TodoUserDetailViewSet(ModelViewSet):
 
     @extend_schema(
         auth=None,
-        operation_id="User Details"
+        operation_id="Get User Details"
     )
     def retrieve(self, request, name, format=None):
         """
@@ -72,33 +72,17 @@ class TodoUserDetailViewSet(ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class TodoItemDetailViewSet(ModelViewSet):
+class TodoItemDetailViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
     serializer_class = TodoItemSerializer
 
-    def get_object(self, pk):
-        try:
-            return TodoItem.objects.get(name=pk)
-        except TodoItem.DoesNotExist:
-            raise Http404
-
-    def update(self, request, pk, format=None):
-        """
-        Lets a user update a particular todo.
-        """
-        snippet = self.get_object(pk)
-        serializer = TodoItemSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, name, format=None):
-        """
-        Lets a user delete a particular todo.
-        """
-        todo_user = self.get_object(name)
-        todo_user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def get_queryset(self):
+        pk = self.kwargs["pk"]
+        return TodoItem.objects.filter(pk=pk)
 
 
 class TodoItemView(APIView):

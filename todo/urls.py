@@ -42,14 +42,15 @@ urlpatterns = [
         'api/users/',
         views.TodoUsersViewSet.as_view({
             'get': 'list'
-        })
+        }),
     ),
     path(
         'api/user/<str:name>/',
         views.TodoUserDetailViewSet.as_view({
             'get': 'retrieve',
             'delete': 'destroy'
-        })
+        }),
+        name="user-details",
     ),
     path(
         'api/user/<str:name>/todos/',
@@ -63,6 +64,7 @@ urlpatterns = [
     path(
         'api/todo/<int:pk>/',
         views.TodoItemDetailViewSet.as_view({
+            'get': 'retrieve',
             'put': 'update',
             'delete': 'destroy'
         })
