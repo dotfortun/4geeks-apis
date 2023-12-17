@@ -16,24 +16,19 @@ class TodoItemSerializer(serializers.ModelSerializer):
 
 
 class TodoUserSerializer(serializers.ModelSerializer):
-    # Needs additional context.
-    todos = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='user-todos',
-    )
-
     class Meta:
         model = TodoUser
         fields = [
             'name',
             'created',
-            'todos',
         ]
 
 
 class TodoUserDetailSerializer(serializers.ModelSerializer):
-    todos = TodoItemSerializer(many=True, read_only=True)
+    todos = serializers.HyperlinkedIdentityField(
+        view_name="user-todos",
+        lookup_field="name",
+    )
 
     class Meta:
         model = TodoUser

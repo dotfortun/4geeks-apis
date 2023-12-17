@@ -44,12 +44,12 @@ urlpatterns = [
     ),
     path(
         'api/user/<str:name>/',
-        views.TodoUserDetail.as_view(),
-        name="user-todos"
+        views.TodoUserDetail.as_view()
     ),
     path(
         'api/user/<str:name>/todos/',
-        views.UserTodoView.as_view()
+        views.UserTodoView.as_view(),
+        name="user-todos",
     ),
     path(
         'api/todo/',

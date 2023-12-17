@@ -38,7 +38,13 @@ class TodoUserDetail(APIView):
 
     def get(self, request, name, format=None):
         user = self.get_object(name)
-        serializer = TodoUserDetailSerializer(user)
+        serializer = TodoUserDetailSerializer(
+            user,
+            context={
+                'request': request,
+                'name': user.name,
+            }
+        )
         return Response(serializer.data)
 
     def delete(self, request, name, format=None):
