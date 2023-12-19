@@ -26,6 +26,7 @@ from . import views
 
 urlpatterns = [
     path("", views.get_pages, name="index"),
+    path("__debug__/", include("debug_toolbar.urls")),
     path('admin/', admin.site.urls),
     path(
         'api/schema/',
@@ -40,6 +41,5 @@ urlpatterns = [
         name='redoc'
     ),
     path('todoapi/', include("todo.urls")),
-    path("__debug__/", include("debug_toolbar.urls")),
     path("<path:dir_path>", views.get_pages, name="content"),
 ]

@@ -1,47 +1,49 @@
-from pathlib import PurePath
+from pathlib import Path
+import os
 import re
 
 from django.http import HttpResponse, HttpRequest
 from django.template.loader import get_template
 
 import markdown
-from html_sanitizer import Sanitizer
+import nh3
 
 
 def get_pages(request: HttpRequest, dir_path=""):
     html = get_template("base.html")
-    f = None
-    path = PurePath(dir_path)
+    md_file = None
 
-    md_file = "index.md"
-    f_path = "/".join([*path.parts, md_file])
-    if re.search(r'\.htm', dir_path.lower()):
-        md_file = "/" + path.stem + ".md"
-        f_path = "/".join([*path.parts[:-1], md_file])
+    # Hey, look!  A use for the walrus operator that isn't
+    # going to bite me somewhere down the line?
+    if os.path.isfile(md_path := ("./pages/" + dir_path)):
+        f_path = md_path
+    elif os.path.isfile(md_path := ("./pages/" + dir_path + '.md')):
+        f_path = md_path
+    elif os.path.isfile(
+        md_path := ("./pages/" + re.sub(r'\.\w+', '.md', dir_path.lower()))
+    ):
+        f_path = md_path
+    else:
+        f_path = "./pages/" + dir_path + "/index.md"
 
-    with open("./pages/" + f_path, "rt") as base:
-        f = base.read()
+    with open(f_path, "rt") as base:
+        md_file = base.read()
 
     md = markdown.Markdown(
         extensions=["meta", "fenced_code"]
     )
 
-    sanitzer = Sanitizer()
-    md_html = sanitzer.sanitize(
-        md.convert(f or "")
+    md_html = nh3.clean(
+        md.convert(md_file or "")
     )
-
-    page_title = " ".join(md.Meta.get("title", ["But why?"]))
 
     return HttpResponse(html.render(
         request=request,
         context={
-            "page_title": page_title,
+            "page_title": " ".join(md.Meta.get("title", ["But why?"])),
             "content": md_html,
             "debug": {
-                "md_path": "./pages/" + "/".join(path.parts[:-1]) + md_file,
                 "dir_path": dir_path,
-                "pure_path": path.parts,
-            },
+            }
         }
     ))

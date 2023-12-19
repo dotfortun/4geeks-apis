@@ -1,3 +1,4 @@
+nh3==0.2.15
 celery==5.3.6
 Django==5.0
 djangorestframework==3.14.0
@@ -5,7 +6,6 @@ django-debug-toolbar==4.2.0
 drf-spectacular==0.27.0
 drf-yasg==1.21.7
 flower==2.0.1
-html-sanitizer==2.2.0
 Markdown==3.5.1
 psycopg2-binary==2.9.9
 redis==5.0.1
