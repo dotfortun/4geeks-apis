@@ -25,7 +25,7 @@ from drf_spectacular.views import (
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.get_pages, name="index"),
     path('admin/', admin.site.urls),
     path(
         'api/schema/',
@@ -40,5 +40,6 @@ urlpatterns = [
         name='redoc'
     ),
     path('todoapi/', include("todo.urls")),
-    path("<path:dir_path>", views.index, name="docs"),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("<path:dir_path>", views.get_pages, name="content"),
 ]
