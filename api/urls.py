@@ -40,4 +40,5 @@ urlpatterns = [
         name='redoc'
     ),
     path('todoapi/', include("todo.urls")),
+    path("<path:dir_path>", views.index, name="docs"),
 ]

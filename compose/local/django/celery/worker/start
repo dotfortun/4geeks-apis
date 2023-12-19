@@ -3,4 +3,7 @@
 set -o errexit
 set -o nounset
 
-celery -A api worker -l INFO
+# celery -A api worker -l INFO
+watchfiles \
+  --filter python \
+  'celery -A api worker --loglevel=info'
