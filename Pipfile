@@ -9,6 +9,8 @@ djangorestframework = "*"
 drf-yasg = "*"
 drf-spectacular = "*"
 markdown = "*"
+celery = "*"
+flower = "*"
 
 [dev-packages]
 autopep8 = "*"
