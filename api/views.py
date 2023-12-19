@@ -9,6 +9,16 @@ import markdown
 import nh3
 
 
+def home_page(request: HttpRequest):
+    html = get_template("base.html")
+    return HttpResponse(html.render(
+        request=request,
+        context={
+            "page_title": "4Geeks Api Playground",
+        }
+    ))
+
+
 def get_pages(request: HttpRequest, dir_path=""):
     html = get_template("base.html")
     md_file = None
@@ -34,7 +44,11 @@ def get_pages(request: HttpRequest, dir_path=""):
     )
 
     md_html = nh3.clean(
-        md.convert(md_file or "")
+        md.convert(md_file or ""),
+        attributes={
+            **nh3.ALLOWED_ATTRIBUTES,
+            'a': {*nh3.ALLOWED_ATTRIBUTES['a'], 'target'}
+        }
     )
 
     return HttpResponse(html.render(

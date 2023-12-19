@@ -25,21 +25,10 @@ from drf_spectacular.views import (
 from . import views
 
 urlpatterns = [
-    path("", views.get_pages, name="index"),
+    path("", views.home_page, name="index"),
     path("__debug__/", include("debug_toolbar.urls")),
     path('admin/', admin.site.urls),
-    path(
-        'api/schema/',
-        SpectacularAPIView.as_view(),
-        name='schema'
-    ),
-    path(
-        'docs/',
-        SpectacularSwaggerView.as_view(
-            url_name='schema'
-        ),
-        name='redoc'
-    ),
     path('todoapi/', include("todo.urls")),
-    path("<path:dir_path>", views.get_pages, name="content"),
+    path("docs/", views.get_pages, name="content"),
+    path("docs/<path:dir_path>", views.get_pages, name="content"),
 ]

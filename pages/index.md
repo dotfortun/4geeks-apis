@@ -4,6 +4,7 @@ Title: Test Title.
 
 For some reason the metadata isn't showing up.
 
+<!-- If the sanitizer didn't work, this page will alert you to that fact. -->
 <script>
   alert("Sanitizer didn't work.");
 </script>
@@ -11,7 +12,7 @@ For some reason the metadata isn't showing up.
 <code>
 ```js
   <script>
-    alert("But are code blocks sanitized?");
+    alert("But code blocks are not sanitized, because they are converted to other HTML.");
   </script>
 ```
 </code>
