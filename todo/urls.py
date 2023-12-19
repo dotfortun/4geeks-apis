@@ -28,6 +28,7 @@ from todo import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("test/", views.test_task, name="cel-test"),
     path(
         'schema/',
         SpectacularAPIView.as_view(),

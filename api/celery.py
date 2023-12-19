@@ -4,6 +4,7 @@ https://docs.celeryq.dev/en/stable/django/first-steps-with-django.html
 import os
 
 from celery import Celery
+from celery.schedules import crontab
 
 from django.conf import settings
 
@@ -22,11 +23,12 @@ app = Celery("fourgeeks_api")
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # discover and load tasks.py from from all registered Django apps
-app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+app.autodiscover_tasks()
 
-
-@app.task
-def divide(x, y):
-    import time
-    time.sleep(5)
-    return x / y
+app.conf.beat_schedule = {
+    'clean-old-todos': {
+        'task': 'todo.tasks.clean_todos',
+        'schedule': crontab(minute=0, hour='*/3'),
+    }
+}
+app.conf.timezone = 'UTC'

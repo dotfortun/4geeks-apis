@@ -2,10 +2,24 @@ from django.contrib import admin
 
 from django.apps import apps
 
-models = apps.get_models()
+from .models import TodoItem, TodoUser, TodoApiSetting
 
-for model in models:
-    try:
-        admin.site.register(model)
-    except admin.sites.AlreadyRegistered:
-        pass
+
+@admin.register(TodoUser)
+class TodoUserAdmin(admin.ModelAdmin):
+    list_display = ["name", "created", "updated"]
+
+
+@admin.register(TodoItem)
+class TodoItemAdmin(admin.ModelAdmin):
+    list_display = [
+        "user", "label", "is_done",
+        "created", "updated"
+    ]
+
+
+@admin.register(TodoApiSetting)
+class TodoItemAdmin(admin.ModelAdmin):
+    list_display = [
+        "label", "value"
+    ]

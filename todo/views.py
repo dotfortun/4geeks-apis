@@ -17,10 +17,19 @@ from todo.serializers import (
     TodoItemSerializer,
 )
 
+from .tasks import clean_todos
+
 
 def index(request):
     return HttpResponse(
         "Hello, world. You're at the 4Geeks Playground root!"
+    )
+
+
+def test_task(request):
+    r = clean_todos()
+    return HttpResponse(
+        "Ding!"
     )
 
 

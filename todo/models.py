@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -11,6 +13,13 @@ class TodoUser(models.Model):
     )
     created = models.DateTimeField(auto_created=True)
 
+    @property
+    def updated(self) -> datetime:
+        return max(*[x.updated for x in self.todos.all()], self.created)
+
+    def __str__(self) -> str:
+        return self.name
+
 
 class TodoItem(models.Model):
     user = models.ForeignKey(
@@ -23,5 +32,20 @@ class TodoItem(models.Model):
     created = models.DateTimeField(auto_created=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.label
+
     class Meta:
         ordering = ["created"]
+
+
+class TodoApiSetting(models.Model):
+    label = models.CharField(
+        max_length=128,
+        unique=True,
+        null=False
+    )
+    value = models.JSONField()
+
+    def __str__(self) -> str:
+        return self.label
