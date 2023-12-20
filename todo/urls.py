@@ -50,7 +50,7 @@ urlpatterns = [
     path(
         'user/<str:username>/',
         views.TodoUserDetailViewSet.as_view({
-            'get': 'retrieve',
+            # 'get': 'retrieve',
             'delete': 'destroy',
             'post': 'create',
         }),

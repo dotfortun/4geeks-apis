@@ -107,23 +107,23 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    @extend_schema(
-        auth=None,
-        operation_id="Get User Details"
-    )
-    def retrieve(self, request, username, format=None):
-        """
-        Returns a specific Todo User object.
-        """
-        user = self.get_object(username)
-        serializer = TodoUserDetailSerializer(
-            user,
-            context={
-                'request': request,
-                'username': user.username,
-            }
-        )
-        return Response(serializer.data)
+    # @extend_schema(
+    #     auth=None,
+    #     operation_id="Get User Details"
+    # )
+    # def retrieve(self, request, username, format=None):
+    #     """
+    #     Returns a specific Todo User object.
+    #     """
+    #     user = self.get_object(username)
+    #     serializer = TodoUserDetailSerializer(
+    #         user,
+    #         context={
+    #             'request': request,
+    #             'username': user.username,
+    #         }
+    #     )
+    #     return Response(serializer.data)
 
     @extend_schema(
         auth=None,
@@ -164,6 +164,9 @@ class UserTodoView(APIView):
         except TodoUser.DoesNotExist:
             raise Http404
 
+    @extend_schema(
+        tags=["Todo Item Operations"]
+    )
     def get(self, request, username, format=None):
         """
         Returns an array of all Todo items from a particular user.
