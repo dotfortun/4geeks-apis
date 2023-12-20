@@ -21,7 +21,7 @@ def clean_todos():
         last_updated__lte=datetime.now() - timedelta(**del_time.value)
     ).all()
 
-    print(old_users)
+    print("Deleted TodoUsers:", old_users)
 
     TodoUser.objects.annotate(
         last_updated=Max("todos__updated", default=datetime.now())
