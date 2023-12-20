@@ -36,7 +36,7 @@ urlpatterns = [
     path(
         'docs/',
         SpectacularSwaggerView.as_view(
-            url_name='schema'
+            url_name='swagger'
         ),
         name='redoc'
     ),
