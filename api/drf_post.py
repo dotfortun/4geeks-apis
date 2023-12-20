@@ -34,10 +34,8 @@ def doc_splitter(
             result["components"]["schemas"] = filtered_schemas
 
             result["info"]["title"] = _("Todo List API")
-            print(result["info"]["title"])
             result["info"]["description"] = ""
             result["securitySchemes"] = {}
-            print(request.headers)
         case "contactapi":
             filtered_paths = {
                 k: v
