@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-20 22:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: api/drf_post.py:36
+msgid "Todo List API"
+msgstr "API de Liste de Tâches"
+
+#: api/settings.py:163
+msgid "English"
+msgstr "Anglais"
+
+#: api/settings.py:164
+msgid "Spanish"
+msgstr "Espagnol"
+
+#: api/settings.py:165
+msgid "French"
+msgstr "Français"
+
+#: todoapi/views.py:37 todoapi/views.py:73 todoapi/views.py:182
+msgid "User Operations"
+msgstr "Opérations Utilisateur"
+
+#: todoapi/views.py:40
+msgid ""
+"\n"
+"    Returns a list of all users.\n"
+"    "
+msgstr ""
+"\n"
+"    Renvoie une liste de tous les utilisateurs.\n"
+"    "
+
+#: todoapi/views.py:47
+msgid "Get all todo users"
+msgstr "Obtenir tous les utilisateurs de tâches à faire"
+
+#: todoapi/views.py:54
+msgid "Create a user"
+msgstr "Créer un utilisateur"
+
+#: todoapi/views.py:86
+msgid "Create todo"
+msgstr "Créer une tâche à faire"
+
+#: todoapi/views.py:87 todoapi/views.py:148 todoapi/views.py:194
+msgid "Todo Item Operations"
+msgstr "Opérations Éléments de Tâches à Faire"
+
+#: todoapi/views.py:136
+msgid "Delete user"
+msgstr "Supprimer un utilisateur"
+
+#: todoapi/views.py:163
+msgid "Get a todo"
+msgstr "Obtenir une tâche à faire"
+
+#: todoapi/views.py:169
+msgid "Update a todo"
+msgstr "Mettre à jour une tâche à faire"
+
+#: todoapi/views.py:175
+msgid "Delete a todo"
+msgstr "Supprimer une tâche à faire"
+
+#: todoapi/views.py:195
+msgid "Get todos from a user"
+msgstr "Obtenir les tâches à faire d'un utilisateur"

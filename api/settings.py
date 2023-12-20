@@ -29,6 +29,7 @@ SECRET_KEY = 'django-insecure-*jiryj6xjqk3u-s2gep(i7n7i%^civ#j-r)5sz%5o4%jgmovtx
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "localhost",
     ".ngrok-free.app",
 ]
 
@@ -162,6 +163,7 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = [
     ("en", gettext_lazy("English")),
     ("es", gettext_lazy("Spanish")),
+    ("fr", gettext_lazy("French")),
 ]
 
 TIME_ZONE = 'UTC'

@@ -77,7 +77,7 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, username):
         try:
-            return TodoUser.objects.get(username=username)
+            return TodoUser.objects.get(name=username)
         except TodoUser.DoesNotExist:
             raise Http404
 
@@ -92,7 +92,7 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
         """
         Creates a todo for a specific user.
         """
-        user = TodoUser.objects.get(username=username)
+        user = TodoUser.objects.get(name=username)
         todo = TodoItemSerializer(
             None, data={
                 **request.data,
@@ -186,7 +186,7 @@ class TodoItemDetailViewSet(
 class UserTodoView(APIView):
     def get_object(self, username):
         try:
-            return TodoUser.objects.get(username=username)
+            return TodoUser.objects.get(name=username)
         except TodoUser.DoesNotExist:
             raise Http404
 
