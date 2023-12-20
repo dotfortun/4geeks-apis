@@ -29,6 +29,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('admin/', admin.site.urls),
     path('todoapi/', include("todoapi.urls")),
+    path('contactapi/', include("contactapi.urls")),
     path("docs/", views.get_pages, name="content"),
     path("docs/<path:dir_path>", views.get_pages, name="content"),
 ]

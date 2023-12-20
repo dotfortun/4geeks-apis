@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
-    'todoapi.apps.TodoConfig',
+    'todoapi.apps.TodoApiConfig',
+    'contactapi.apps.ContactApiConfig',
     "debug_toolbar",
 ]
 
