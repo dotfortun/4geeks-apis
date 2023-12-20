@@ -48,7 +48,7 @@ urlpatterns = [
         }),
     ),
     path(
-        'user/<str:name>/',
+        'user/<str:username>/',
         views.TodoUserDetailViewSet.as_view({
             'get': 'retrieve',
             'delete': 'destroy',
@@ -57,7 +57,7 @@ urlpatterns = [
         name="user-details",
     ),
     path(
-        'user/<str:name>/todos/',
+        'user/<str:username>/todos/',
         views.UserTodoView.as_view(),
         name="user-todos",
     ),

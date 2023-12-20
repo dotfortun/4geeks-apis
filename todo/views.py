@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status, mixins, generics
 
 from drf_spectacular.utils import (
-    extend_schema, OpenApiParameter,
+    extend_schema,
 )
 
 from todo.models import TodoUser, TodoItem
@@ -66,9 +66,9 @@ class TodoUsersViewSet(viewsets.ModelViewSet):
 class TodoUserDetailViewSet(viewsets.ModelViewSet):
     serializer_class = TodoUserDetailSerializer
 
-    def get_queryset(self, name):
+    def get_queryset(self, username):
         try:
-            return TodoUser.objects.get(name=name)
+            return TodoUser.objects.get(username=username)
         except TodoUser.DoesNotExist:
             raise Http404
 
@@ -79,11 +79,11 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
         request=TodoItemSerializer,
         responses=TodoItemSerializer,
     )
-    def create(self, request, name):
+    def create(self, request, username):
         """
         Creates a Todo for a specific user.
         """
-        user = TodoUser.objects.get(name=name)
+        user = TodoUser.objects.get(username=username)
         todo = TodoItemSerializer(
             None, data={
                 **request.data,
@@ -108,16 +108,16 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
         auth=None,
         operation_id="Get User Details"
     )
-    def retrieve(self, request, name, format=None):
+    def retrieve(self, request, username, format=None):
         """
         Returns a specific Todo User object.
         """
-        user = self.get_object(name)
+        user = self.get_object(username)
         serializer = TodoUserDetailSerializer(
             user,
             context={
                 'request': request,
-                'name': user.name,
+                'username': user.username,
             }
         )
         return Response(serializer.data)
@@ -126,11 +126,11 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
         auth=None,
         operation_id="Delete User"
     )
-    def destroy(self, request, name, format=None):
+    def destroy(self, request, username, format=None):
         """
         Allows a user to be deleted.
         """
-        todo_user = self.get_object(name)
+        todo_user = self.get_object(username)
         todo_user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -151,41 +151,21 @@ class TodoItemDetailViewSet(
         return TodoItem.objects.filter(pk=pk)
 
 
-# @extend_schema(
-#     tags=["Todo Item Operations"]
-# )
-# class TodoItemView(APIView):
-#     def post(self, request, format=None):
-#         """
-#         Allows a user to create a new Todo item.
-#         """
-#         serializer = TodoItemSerializer(
-#             None, data=request.data
-#         )
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(
-#             serializer.errors,
-#             status=status.HTTP_400_BAD_REQUEST
-#         )
-
-
 @extend_schema(
     tags=["User Operations"]
 )
 class UserTodoView(APIView):
-    def get_object(self, name):
+    def get_object(self, username):
         try:
-            return TodoUser.objects.get(name=name)
+            return TodoUser.objects.get(username=username)
         except TodoUser.DoesNotExist:
             raise Http404
 
-    def get(self, request, name, format=None):
+    def get(self, request, username, format=None):
         """
         Returns an array of all Todo items from a particular user.
         """
-        user = self.get_object(name)
+        user = self.get_object(username)
         serializer = TodoItemSerializer(
             user.todos,
             many=True
