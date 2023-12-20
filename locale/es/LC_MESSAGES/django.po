@@ -1,0 +1,75 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-20 18:01+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es-ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: api/drf_post.py:36
+msgid "Todo List API"
+msgstr "API de Lista de Tareas"
+
+#: api/settings.py:161
+msgid "English"
+msgstr "English"
+
+#: api/settings.py:162
+msgid "Spanish"
+msgstr "Spanish"
+
+#: todoapi/views.py:37 todoapi/views.py:73 todoapi/views.py:182
+msgid "User Operations"
+msgstr "Operaciones de Usuario"
+
+#: todoapi/views.py:40
+msgid ""
+"\n"
+"    Returns a list of all users.\n"
+"    "
+msgstr ""
+"\n"
+"    Devuelve una lista de todos los usuarios.\n"
+"    "
+
+#: todoapi/views.py:47
+msgid "Get all todo users"
+msgstr "Obtener todos los usuarios de tareas pendientes"
+
+#: todoapi/views.py:54
+msgid "Create a user"
+msgstr "Crear un usuario"
+
+#: todoapi/views.py:86
+msgid "Create todo"
+msgstr "Crear tarea pendiente"
+
+#: todoapi/views.py:87 todoapi/views.py:148 todoapi/views.py:194
+msgid "Todo Item Operations"
+msgstr  "Operaciones de Ítems de Tareas"
+
+#: todoapi/views.py:136
+msgid "Delete user"
+msgstr "Eliminar usuario"
+
+#: todoapi/views.py:163
+msgid "Get a todo"
+msgstr "Obtener una tarea pendiente"
+
+#: todoapi/views.py:169
+msgid "Update a todo"
+msgstr "Actualizar una tarea pendiente"
+
+#: todoapi/views.py:175
+msgid "Delete a todo"
+msgstr "Eliminar una tarea pendiente"
+
+#: todoapi/views.py:195
+msgid "Get todos from a user"
+msgstr "Obtener tareas pendientes de un usuario"

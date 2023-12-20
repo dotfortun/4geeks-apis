@@ -22,19 +22,31 @@ def home_page(request: HttpRequest):
 def get_pages(request: HttpRequest, dir_path=""):
     html = get_template("base.html")
     md_file = None
+    lang = request.headers.get('Accept-Language', 'en-US').split(",")[0]
 
-    # Hey, look!  A use for the walrus operator that isn't
-    # going to bite me somewhere down the line?
-    if os.path.isfile(md_path := ("./pages/" + dir_path)):
-        f_path = md_path
-    elif os.path.isfile(md_path := ("./pages/" + dir_path + '.md')):
-        f_path = md_path
-    elif os.path.isfile(
-        md_path := ("./pages/" + re.sub(r'\.\w+', '.md', dir_path.lower()))
-    ):
-        f_path = md_path
+    # This can definitely be rewritten.
+    if lang == "es-ES":
+        if os.path.isfile(md_path := ("./pages/" + dir_path)):
+            f_path = md_path
+        elif os.path.isfile(md_path := ("./pages/" + dir_path + '.es.md')):
+            f_path = md_path
+        elif os.path.isfile(
+            md_path := ("./pages/" + re.sub(r'\.\w+', '.es.md', dir_path.lower()))
+        ):
+            f_path = md_path
+        else:
+            f_path = "./pages/" + dir_path + "/index.es.md"
     else:
-        f_path = "./pages/" + dir_path + "/index.md"
+        if os.path.isfile(md_path := ("./pages/" + dir_path)):
+            f_path = md_path
+        elif os.path.isfile(md_path := ("./pages/" + dir_path + '.md')):
+            f_path = md_path
+        elif os.path.isfile(
+            md_path := ("./pages/" + re.sub(r'\.\w+', '.md', dir_path.lower()))
+        ):
+            f_path = md_path
+        else:
+            f_path = "./pages/" + dir_path + "/index.md"
 
     with open(f_path, "rt") as base:
         md_file = base.read()

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.http import Http404
-from django.utils.translation import gettext_lazy as _gtl
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework.views import APIView
 from rest_framework import viewsets
@@ -34,18 +34,24 @@ def test_task(request):
 
 
 @extend_schema(
-    tags=["User Operations"]
+    tags=[_("User Operations")],
 )
 class TodoUsersViewSet(viewsets.ModelViewSet):
-    __doc__ = _gtl("""
+    __doc__ = _("""
     Returns a list of all users.
     """)
     queryset = TodoUser.objects.all()
     serializer_class = TodoUserSerializer
 
     @extend_schema(
+        summary=_("Get all todo users"),
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @extend_schema(
         auth=None,
-        operation_id="Create a user"
+        summary=_("Create a user")
     )
     def create(self, request):
         """
@@ -64,7 +70,7 @@ class TodoUsersViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema(
-    tags=["User Operations"]
+    tags=[_("User Operations")]
 )
 class TodoUserDetailViewSet(viewsets.ModelViewSet):
     serializer_class = TodoUserDetailSerializer
@@ -77,14 +83,14 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         auth=None,
-        operation_id="Create Todo",
-        tags=["Todo Item Operations"],
+        summary=_("Create todo"),
+        tags=[_("Todo Item Operations")],
         request=TodoItemSerializer,
         responses=TodoItemSerializer,
     )
     def create(self, request, username):
         """
-        Creates a Todo for a specific user.
+        Creates a todo for a specific user.
         """
         user = TodoUser.objects.get(username=username)
         todo = TodoItemSerializer(
@@ -109,7 +115,7 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
     # @extend_schema(
     #     auth=None,
-    #     operation_id="Get User Details"
+    #     summary="Get User Details"
     # )
     # def retrieve(self, request, username, format=None):
     #     """
@@ -127,7 +133,7 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         auth=None,
-        operation_id="Delete User"
+        summary=_("Delete user")
     )
     def destroy(self, request, username, format=None):
         """
@@ -139,7 +145,7 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema(
-    tags=["Todo Item Operations"]
+    tags=[_("Todo Item Operations")],
 )
 class TodoItemDetailViewSet(
     mixins.RetrieveModelMixin,
@@ -153,9 +159,27 @@ class TodoItemDetailViewSet(
         pk = self.kwargs["pk"]
         return TodoItem.objects.filter(pk=pk)
 
+    @extend_schema(
+        summary=_("Get a todo")
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    @extend_schema(
+        summary=_("Update a todo")
+    )
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    @extend_schema(
+        summary=_("Delete a todo")
+    )
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
 
 @extend_schema(
-    tags=["User Operations"],
+    tags=[_("User Operations")],
     request=None,
     responses=TodoItemSerializer
 )
@@ -167,11 +191,12 @@ class UserTodoView(APIView):
             raise Http404
 
     @extend_schema(
-        tags=["Todo Item Operations"]
+        tags=[_("Todo Item Operations")],
+        summary=_("Get todos from a user")
     )
     def get(self, request, username, format=None):
         """
-        Returns an array of all Todo items from a particular user.
+        Returns an array of all todo items from a particular user.
         """
         user = self.get_object(username)
         serializer = TodoItemSerializer(

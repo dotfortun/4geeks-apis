@@ -3,6 +3,8 @@ import re
 from drf_spectacular.generators import SchemaGenerator
 from rest_framework.request import Request
 
+from django.utils.translation import gettext_lazy as _
+
 
 def doc_splitter(
     result: dict,
@@ -31,9 +33,11 @@ def doc_splitter(
             }
             result["components"]["schemas"] = filtered_schemas
 
-            result["info"]["title"] = "Todo List API"
+            result["info"]["title"] = _("Todo List API")
+            print(result["info"]["title"])
             result["info"]["description"] = ""
             result["securitySchemes"] = {}
+            print(request.headers)
         case "contactapi":
             filtered_paths = {
                 k: v
