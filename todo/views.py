@@ -48,6 +48,9 @@ class TodoUsersViewSet(viewsets.ModelViewSet):
         operation_id="Create a user"
     )
     def create(self, request):
+        """
+        Creates a Todo API User.
+        """
         user, created = TodoUser.objects.get_or_create(request.data)
 
         if created:
