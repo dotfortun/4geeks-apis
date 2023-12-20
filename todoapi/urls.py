@@ -24,7 +24,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView
 )
 
-from todo import views
+from todoapi import views
 
 urlpatterns = [
     path("", views.index, name="index"),

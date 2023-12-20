@@ -11,8 +11,8 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 
-from todo.models import TodoUser, TodoItem
-from todo.serializers import (
+from todoapi.models import TodoUser, TodoItem
+from todoapi.serializers import (
     TodoUserDetailSerializer, TodoUserSerializer,
     TodoItemSerializer,
 )
@@ -155,7 +155,9 @@ class TodoItemDetailViewSet(
 
 
 @extend_schema(
-    tags=["User Operations"]
+    tags=["User Operations"],
+    request=None,
+    responses=TodoItemSerializer
 )
 class UserTodoView(APIView):
     def get_object(self, username):

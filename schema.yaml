@@ -1,0 +1,271 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /todoapi/todo/{id}/:
+    get:
+      operationId: todo_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Todo Item Operations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+          description: ''
+    put:
+      operationId: todo_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Todo Item Operations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+          description: ''
+    delete:
+      operationId: todo_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Todo Item Operations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /todoapi/user/{username}/:
+    post:
+      operationId: Create Todo
+      description: Creates a Todo for a specific user.
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - Todo Item Operations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+          description: ''
+    delete:
+      operationId: Delete User
+      description: Allows a user to be deleted.
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - User Operations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /todoapi/user/{username}/todos/:
+    get:
+      operationId: user_todos_retrieve
+      description: Returns an array of all Todo items from a particular user.
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+        required: true
+      tags:
+      - Todo Item Operations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoItem'
+          description: ''
+  /todoapi/users/:
+    get:
+      operationId: users_list
+      description: Returns a list of all users.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - User Operations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTodoUserList'
+          description: ''
+    post:
+      operationId: Create a user
+      description: Creates a Todo API User.
+      tags:
+      - User Operations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TodoUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TodoUser'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoUser'
+          description: ''
+components:
+  schemas:
+    PaginatedTodoUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TodoUser'
+    TodoItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          maxLength: 256
+        is_done:
+          type: boolean
+          default: false
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created
+      - id
+      - updated
+    TodoUser:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 128
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

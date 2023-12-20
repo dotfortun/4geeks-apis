@@ -2,7 +2,7 @@ from datetime import datetime
 
 from rest_framework import serializers
 
-from todo.models import TodoUser, TodoItem
+from todoapi.models import TodoUser, TodoItem
 
 
 class TodoItemSerializer(serializers.ModelSerializer):

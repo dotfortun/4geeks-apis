@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
-    'todo.apps.TodoConfig',
+    'todoapi.apps.TodoConfig',
     "debug_toolbar",
 ]
 
@@ -62,6 +62,10 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # 'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
     # OTHER SETTINGS
+    'POSTPROCESSING_HOOKS': [
+        'drf_spectacular.hooks.postprocess_schema_enums',
+        'api.drf_post.doc_splitter',
+    ]
 }
 
 MIDDLEWARE = [
@@ -157,7 +161,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR/'static',
-    '/var/www/static/'
 ]
 
 # Default primary key field type

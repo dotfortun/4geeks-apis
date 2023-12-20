@@ -27,7 +27,7 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     'clean-old-todos': {
-        'task': 'todo.tasks.clean_todos',
+        'task': 'todoapi.tasks.clean_todos',
         'schedule': crontab(minute=0, hour='*/3'),
     }
 }
