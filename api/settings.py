@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-*jiryj6xjqk3u-s2gep(i7n7i%^civ#j-r)5sz%5o4%jgmovtx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    ".ngrok-free.app",
+]
 
 if DEBUG:
     import socket  # only if you haven't already imported this

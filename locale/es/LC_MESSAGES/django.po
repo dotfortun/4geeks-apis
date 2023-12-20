@@ -40,7 +40,7 @@ msgstr ""
 
 #: todoapi/views.py:47
 msgid "Get all todo users"
-msgstr "Obtener todos los usuarios de tareas pendientes"
+msgstr "Obtener todos los usuarios de tareas"
 
 #: todoapi/views.py:54
 msgid "Create a user"
@@ -60,16 +60,16 @@ msgstr "Eliminar usuario"
 
 #: todoapi/views.py:163
 msgid "Get a todo"
-msgstr "Obtener una tarea pendiente"
+msgstr "Obtener una tarea"
 
 #: todoapi/views.py:169
 msgid "Update a todo"
-msgstr "Actualizar una tarea pendiente"
+msgstr "Actualizar una tarea"
 
 #: todoapi/views.py:175
 msgid "Delete a todo"
-msgstr "Eliminar una tarea pendiente"
+msgstr "Eliminar una tarea"
 
 #: todoapi/views.py:195
 msgid "Get todos from a user"
-msgstr "Obtener tareas pendientes de un usuario"
+msgstr "Obtener tareas de un usuario"
