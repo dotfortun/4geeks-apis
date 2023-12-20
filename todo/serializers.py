@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import serializers
 
 from todo.models import TodoUser, TodoItem
@@ -9,19 +11,25 @@ class TodoItemSerializer(serializers.ModelSerializer):
         required=False
     )
     is_done = serializers.BooleanField(
-        required=False
+        required=False,
+        default=False
     )
 
     class Meta:
         model = TodoItem
         fields = [
             'id', 'label', 'is_done',
-            'created', 'updated',
+            'created', 'updated'
         ]
         read_only_fields = ['id', 'created', 'updated']
 
 
 class TodoUserSerializer(serializers.ModelSerializer):
+    created = serializers.DateTimeField(
+        read_only=True,
+        default=datetime.now
+    )
+
     class Meta:
         model = TodoUser
         fields = [

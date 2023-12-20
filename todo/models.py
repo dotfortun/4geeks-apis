@@ -11,7 +11,10 @@ class TodoUser(models.Model):
         unique=True,
         null=False,
     )
-    created = models.DateTimeField(auto_created=True)
+    created = models.DateTimeField(
+        auto_created=True,
+        default=datetime.now
+    )
 
     @property
     def updated(self) -> datetime:
@@ -29,7 +32,10 @@ class TodoItem(models.Model):
     )
     label = models.CharField(max_length=256)
     is_done = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_created=True)
+    created = models.DateTimeField(
+        auto_created=True,
+        default=datetime.now
+    )
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:

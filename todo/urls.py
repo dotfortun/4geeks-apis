@@ -28,7 +28,6 @@ from todo import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("test/", views.test_task, name="cel-test"),
     path(
         'schema/',
         SpectacularAPIView.as_view(),
@@ -44,14 +43,16 @@ urlpatterns = [
     path(
         'users/',
         views.TodoUsersViewSet.as_view({
-            'get': 'list'
+            'get': 'list',
+            'post': 'create'
         }),
     ),
     path(
         'user/<str:name>/',
         views.TodoUserDetailViewSet.as_view({
             'get': 'retrieve',
-            'delete': 'destroy'
+            'delete': 'destroy',
+            'post': 'create',
         }),
         name="user-details",
     ),
@@ -59,10 +60,6 @@ urlpatterns = [
         'user/<str:name>/todos/',
         views.UserTodoView.as_view(),
         name="user-todos",
-    ),
-    path(
-        'api/todo/',
-        views.TodoItemView.as_view()
     ),
     path(
         'todo/<int:pk>/',
