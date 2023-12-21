@@ -51,7 +51,6 @@ urlpatterns = [
         'users/',
         views.TodoUsersViewSet.as_view({
             'get': 'list',
-            'post': 'create'
         }),
     ),
     path(
@@ -65,7 +64,10 @@ urlpatterns = [
     ),
     path(
         'user/<str:username>/todos/',
-        views.UserTodoView.as_view(),
+        views.UserTodoView.as_view({
+            'get': 'retrieve',
+            'post': 'create'
+        }),
         name="user-todos",
     ),
     path(

@@ -1,30 +1,37 @@
+import logging
 from datetime import datetime, timedelta
 
 from .models import TodoUser, TodoApiSetting
 
-from django.db.models import Max
+from django.db.models import Max, Min
 from celery import shared_task
 
 
 @shared_task
 def clean_todos():
-    del_time, _ = TodoApiSetting.objects.filter(
-        label="todo_delete_time"
-    ).get_or_create(
+    print(__name__)
+    del_time, _ = TodoApiSetting.objects.get_or_create(
         label="todo_delete_time",
-        value={"days": 7}
+        defaults={
+            "value": {"days": 7}
+        }
     )
 
-    old_users = TodoUser.objects.annotate(
-        last_updated=Max("todos__updated", default=datetime.now())
+    old_users = TodoUser.objects.all().annotate(
+        last_updated=Min("todos__updated", default=(
+            datetime.now() - timedelta(**del_time.value)))
     ).filter(
-        last_updated__lte=datetime.now() - timedelta(**del_time.value)
-    ).all()
+        last_updated__lte=(datetime.now() - timedelta(**del_time.value))
+    )
 
-    print("Deleted TodoUsers:", old_users)
+    print("Deleting old TodoUsers:", [
+        (x.name, x.last_updated.isoformat()) for x in old_users])
 
-    TodoUser.objects.annotate(
-        last_updated=Max("todos__updated", default=datetime.now())
+    TodoUser.objects.all().annotate(
+        last_updated=Min("todos__updated", default=(
+            datetime.now() - timedelta(**del_time.value)))
     ).filter(
-        last_updated__lte=datetime.now() - timedelta(**del_time.value)
+        last_updated__lte=(datetime.now() - timedelta(**del_time.value))
     ).delete()
+
+    print("Old TodoUsers deleted.")

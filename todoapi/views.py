@@ -49,25 +49,6 @@ class TodoUsersViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @extend_schema(
-        auth=None,
-        summary=_("Create a user")
-    )
-    def create(self, request):
-        """
-        Creates a Todo API User.
-        """
-        user, created = TodoUser.objects.get_or_create(request.data)
-
-        if created:
-            serializer = TodoUserSerializer(user)
-            return Response(serializer.data)
-        else:
-            return Response(
-                {"msg": "User already exists"},
-                400
-            )
-
 
 @extend_schema(
     tags=[_("User Operations")]
@@ -83,53 +64,23 @@ class TodoUserDetailViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         auth=None,
-        summary=_("Create todo"),
-        tags=[_("Todo Item Operations")],
-        request=TodoItemSerializer,
-        responses=TodoItemSerializer,
+        summary=_("Create a user"),
+        request=None,
     )
-    def create(self, request, username):
+    def create(self, request, username, format=None):
         """
-        Creates a todo for a specific user.
+        Creates a Todo API User.
         """
-        user = TodoUser.objects.get(name=username)
-        todo = TodoItemSerializer(
-            None, data={
-                **request.data,
-                "user": user.id
-            }
-        )
-        todo.user = user
+        user, created = TodoUser.objects.get_or_create(name=username)
 
-        if todo.is_valid():
-            todo_item = TodoItem.objects.create(
-                **todo.data,
-                user=user,
+        if created:
+            serializer = TodoUserSerializer(user)
+            return Response(serializer.data)
+        else:
+            return Response(
+                {"msg": "User already exists"},
+                400
             )
-            todo_item.save()
-            return Response(TodoItemSerializer(todo_item).data)
-        return Response(
-            todo.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    # @extend_schema(
-    #     auth=None,
-    #     summary="Get User Details"
-    # )
-    # def retrieve(self, request, username, format=None):
-    #     """
-    #     Returns a specific Todo User object.
-    #     """
-    #     user = self.get_object(username)
-    #     serializer = TodoUserDetailSerializer(
-    #         user,
-    #         context={
-    #             'request': request,
-    #             'username': user.username,
-    #         }
-    #     )
-    #     return Response(serializer.data)
 
     @extend_schema(
         auth=None,
@@ -183,7 +134,7 @@ class TodoItemDetailViewSet(
     request=None,
     responses=TodoItemSerializer
 )
-class UserTodoView(APIView):
+class UserTodoView(viewsets.GenericViewSet):
     def get_object(self, username):
         try:
             return TodoUser.objects.get(name=username)
@@ -194,7 +145,7 @@ class UserTodoView(APIView):
         tags=[_("Todo Item Operations")],
         summary=_("Get todos from a user")
     )
-    def get(self, request, username, format=None):
+    def retrieve(self, request, username, format=None):
         """
         Returns an array of all todo items from a particular user.
         """
@@ -204,3 +155,35 @@ class UserTodoView(APIView):
             many=True
         )
         return Response(serializer.data)
+
+    @extend_schema(
+        auth=None,
+        summary=_("Create todo"),
+        tags=[_("Todo Item Operations")],
+        request=TodoItemSerializer,
+        responses=TodoItemSerializer,
+    )
+    def create(self, request, username):
+        """
+        Creates a todo for a specific user.
+        """
+        user = TodoUser.objects.get(name=username)
+        todo = TodoItemSerializer(
+            None, data={
+                **request.data,
+                "user": user.id
+            }
+        )
+        todo.user = user
+
+        if todo.is_valid():
+            todo_item = TodoItem.objects.create(
+                **todo.data,
+                user=user,
+            )
+            todo_item.save()
+            return Response(TodoItemSerializer(todo_item).data)
+        return Response(
+            todo.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )

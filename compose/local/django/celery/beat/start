@@ -4,4 +4,4 @@ set -o errexit
 set -o nounset
 
 rm -f './celerybeat.pid'
-celery -A api beat -l INFO 
+celery -A api beat -l INFO --uid=nobody --gid=nogroup

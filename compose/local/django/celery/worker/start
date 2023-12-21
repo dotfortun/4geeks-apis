@@ -6,4 +6,4 @@ set -o nounset
 # celery -A api worker -l INFO
 watchfiles \
   --filter python \
-  'celery -A api worker --loglevel=info'
+  'celery -A api worker --uid=nobody --gid=nogroup --loglevel=info'

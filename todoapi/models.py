@@ -12,13 +12,12 @@ class TodoUser(models.Model):
         null=False,
     )
     created = models.DateTimeField(
-        auto_created=True,
-        default=datetime.now
+        auto_now_add=True,
     )
 
     @property
     def updated(self) -> datetime:
-        return max(*[x.updated for x in self.todos.all()], self.created)
+        return max([x.updated for x in self.todos.all()] + [self.created])
 
     def __str__(self) -> str:
         return self.name
@@ -33,8 +32,7 @@ class TodoItem(models.Model):
     label = models.CharField(max_length=256)
     is_done = models.BooleanField(default=False)
     created = models.DateTimeField(
-        auto_created=True,
-        default=datetime.now
+        auto_now_add=True
     )
     updated = models.DateTimeField(auto_now=True)
 

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from rest_framework import serializers
 
 from todoapi.models import TodoUser, TodoItem
@@ -30,8 +28,7 @@ class TodoItemSerializer(serializers.ModelSerializer):
 
 class TodoUserSerializer(serializers.ModelSerializer):
     created = serializers.DateTimeField(
-        read_only=True,
-        default=datetime.now
+        read_only=True
     )
 
     class Meta:
