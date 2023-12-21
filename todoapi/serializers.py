@@ -6,6 +6,10 @@ from todoapi.models import TodoUser, TodoItem
 
 
 class TodoItemSerializer(serializers.ModelSerializer):
+    default_error_messages = {
+
+    }
+
     label = serializers.CharField(
         max_length=256,
         required=False

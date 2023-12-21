@@ -13,9 +13,8 @@ def doc_splitter(
     public: bool
 ):
     """
-    This post-processing step splits the various schemas
-    based on routing.  This is probably where translation
-    should happen, too (but I still need to do that).
+    This post-processing step splits
+    the various schemas based on routing.
     """
     match (request.path.split("/")[1]):
         case "todoapi":
